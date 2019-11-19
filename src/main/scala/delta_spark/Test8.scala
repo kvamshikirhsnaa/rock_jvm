@@ -1,3 +1,4 @@
+
 package delta_spark
 
 import org.apache.spark.sql.SparkSession
@@ -7,7 +8,7 @@ import org.apache.spark.sql.expressions._
 import io.delta.tables._
 
 
-object Test6 {
+object Test8 {
   def main(args: Array[String]): Unit = {
 
     val spark = SparkSession.builder().
@@ -25,8 +26,8 @@ object Test6 {
 
     df.show
 
-
 /*
+
 
         val df2 = df.withColumn("end_dt", lit(null).cast(TimestampType)).
           withColumn("current", lit("true"))
@@ -35,24 +36,25 @@ object Test6 {
         df2.printSchema
 
         df2.write.mode("append").format("delta").
-          save("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new2")
+          save("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new3")
 
 */
 
-    val dlt = DeltaTable.forPath("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new2")
+
+    val dlt = DeltaTable.forPath("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new3")
     dlt.toDF.show
 
-    val newLocToInsert = df.as("updates").join(dlt.toDF.as("customers"), Seq("id")).
-      where("customers.current = true and updates.loc <> customers.loc")
+    val delta_df = dlt.toDF
 
-    val stagingUpdates = newLocToInsert.selectExpr("id as mergekey", "updates.*").
-      union(df.selectExpr("null as mergekey", "*"))
+    val newLocToInsert = df.join(delta_df, Seq("id")).
+      where(delta_df("current") === true and delta_df("loc") =!= df("loc"))
 
+    newLocToInsert.printSchema()
 
-    stagingUpdates.show
+    val stagingUpdates = newLocToInsert.select($"id" as "mergekey", df("*")).
+      union(df.select(lit(null) as "mergekey", df("*")))
+
     stagingUpdates.printSchema()
-
-
 
     dlt.as("customers").
       merge(stagingUpdates.as("staging_updates"), $"customers.id" === $"mergekey").
@@ -74,6 +76,8 @@ object Test6 {
 
 
 
+
   }
 
 }
+

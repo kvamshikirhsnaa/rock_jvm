@@ -81,9 +81,7 @@ object Test7 {
     latestChangeForEachKey.show() // shows the latest change for each key
 
     deltaTable.as("t")
-      .merge(
-        latestChangeForEachKey.as("s"),
-        "s.key = t.key")
+      .merge( latestChangeForEachKey.as("s"), "s.key = t.key")
       .whenMatched("s.deleted = true")
       .delete()
       .whenMatched()
@@ -94,7 +92,6 @@ object Test7 {
 
 
     deltaTable.toDF.show
-
 
   }
 

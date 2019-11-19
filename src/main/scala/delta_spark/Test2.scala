@@ -24,8 +24,8 @@ object Test2 {
 
     df.show
 
-/*
 
+/*
     val df2 = df.withColumn("end_dt", lit(null).cast(TimestampType)).
       withColumn("current", lit("true"))
 
@@ -33,9 +33,9 @@ object Test2 {
     df2.printSchema
 
     df2.write.format("delta").mode("append").
-      save("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op")
-
+      save("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new")
 */
+
 
     // Rows to INSERT new loc of existing customers
     val cust_dlt = DeltaTable.forPath("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new")

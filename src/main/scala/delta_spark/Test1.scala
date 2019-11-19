@@ -1,4 +1,4 @@
-/*
+
 package delta_spark
 
 import org.apache.spark.sql.SparkSession
@@ -27,16 +27,18 @@ object Test1 {
     df.show
 
 
+/*
 
-/*    val df2 = df.withColumn("end_dt", lit(null).cast(TimestampType)).
+    val df2 = df.withColumn("end_dt", lit(null).cast(TimestampType)).
       withColumn("current", lit("true"))
 
     df2.show
     df2.printSchema
 
     df2.write.mode("append").format("delta").
-      save("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new")*/
+      save("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new")
 
+*/
 
 
     val dlt = DeltaTable.forPath("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new")
@@ -45,8 +47,7 @@ object Test1 {
     val newLocToInsert = df.as("updates").join(dlt.toDF.as("customers"), Seq("id")).
       where("customers.current = true and updates.loc <> customers.loc")
 
-    val stagingUpdates = newLocToInsert.
-      selectExpr("NULL as mergekey", "updates.*").
+    val stagingUpdates = newLocToInsert.selectExpr("NULL as mergekey", "updates.*").
       union(df.selectExpr("id as mergekey", "*"))
 
     stagingUpdates.printSchema()
@@ -75,4 +76,4 @@ object Test1 {
   }
 
 }
-*/
+
