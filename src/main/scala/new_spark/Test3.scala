@@ -31,10 +31,9 @@ object Test3 {
     println(df2.printSchema())
 
 
-
     val df3 = df2.withColumn("finalstatus", when(array_contains($"status", "absent"), "absent")
-       when(array_contains($"status","fail"), "failed")
-       when(array_contains($"status", "detained"), "failed") otherwise "passed")
+      when(array_contains($"status","fail") || array_contains($"status", "detained"), "failed")
+      otherwise "passed")
 
 
     df3.show

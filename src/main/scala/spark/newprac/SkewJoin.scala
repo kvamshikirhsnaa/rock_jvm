@@ -52,7 +52,7 @@ object Test7 {
 
     println(df1.rdd.partitions.size)
 
-    val df2 = df1.repartition(20,$"id") // creates 200 partitions but
+    val df2 = df1.repartition(20,$"id") // creates 20 partitions but
                                                // only 6 partitions will have data
                                                  // remains empty partitions
     println(df2.rdd.partitions.size)
