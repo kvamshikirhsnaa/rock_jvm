@@ -2,6 +2,7 @@ package spark_playground
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
+import org.apache.log4j.{Level, Logger}
 
 case class Purchase(id: Int, amt: Int)
 
@@ -10,11 +11,12 @@ import scala.util.Random
 object SkewJoinNew {
   def main(args: Array[String]): Unit = {
 
+    Logger.getLogger("org").setLevel(Level.ERROR)
+
     val spark = SparkSession.builder().
       master( "local" ).
       appName( "sample" ).getOrCreate()
 
-    spark.sparkContext.setLogLevel( "ERROR" )
     spark.conf.set( "spark.sql.autoBroadcastJoinThreshold", -1 )
 
     import spark.implicits._
@@ -63,8 +65,17 @@ object SkewJoinNew {
     df3new.show
 
     val joindfnew = df1new.join(df3new, Seq("id"))
+    joindfnew.show(100)
+
     println( joindfnew.rdd.partitions.size )
     println( joindfnew.rdd.mapPartitions( x => Iterator( x.size ) ).collect.toList )
+
+
+    val joinDfNewRes = joindfnew.withColumn("id", regexp_extract('id, "[0-9]+", 0))
+    joinDfNewRes.show
+
+    println( joinDfNewRes.rdd.partitions.size )
+    println( joinDfNewRes.rdd.mapPartitions( x => Iterator( x.size ) ).collect.toList )
 
 
 

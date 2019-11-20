@@ -1,6 +1,8 @@
 package spark_playground
 
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
+import org.apache.log4j.{Level, Logger}
 
 import scala.util.Random
 
@@ -8,6 +10,8 @@ import scala.util.Random
 
 object Test18 {
   def main(args: Array[String]): Unit = {
+
+    Logger.getLogger("org").setLevel(Level.ERROR)
 
     val spark = SparkSession.builder().
       master( "local" ).
@@ -58,6 +62,10 @@ object Test18 {
     println(dfRep3.rdd.partitions.size)
     println(dfRep3.rdd.mapPartitions(x => Iterator(x.size)).collect.toList)
 
+    val dfRep4 = joindf.repartition(50, 'id, rand)
+    println(dfRep4.rdd.partitions.size)
+    println(dfRep4.rdd.mapPartitions(x => Iterator(x.size)).collect.toList)
+
     println()
 
 
@@ -93,6 +101,32 @@ object Test18 {
     val dfRepByRng5 = joindf.repartitionByRange(20, 'amt)
     println(dfRepByRng5.rdd.partitions.size)
     println(dfRepByRng5.rdd.mapPartitions(x => Iterator(x.size)).collect.toList)
+
+    val dfRepByRng6 = joindf.repartitionByRange(20, 'id, rand)
+    println(dfRepByRng6.rdd.partitions.size)
+    println(dfRepByRng6.rdd.mapPartitions(x => Iterator(x.size)).collect.toList)
+
+    // sending data across all partitions equally
+    val dfRepByRng7 = joindf.repartitionByRange(30, 'id, rand)
+    dfRepByRng7.show
+    println(dfRepByRng7.rdd.partitions.size)
+    println(dfRepByRng7.rdd.mapPartitions(x => Iterator(x.size)).collect.toList)
+
+
+    val newdf = dfRepByRng7.withColumn("id", regexp_extract('id, "[0-9]+", 0))
+    newdf.show
+    println(newdf.rdd.partitions.size)
+    println(newdf.rdd.mapPartitions(x => Iterator(x.size)).collect.toList)
+
+    val newdf2 = newdf.groupBy('id).agg(max('amt) as "amt")
+
+    newdf2.show
+    println(newdf2.rdd.partitions.size)
+    println(newdf2.rdd.mapPartitions(x => Iterator(x.size)).collect.toList)
+
+
+
+
 
 
 
