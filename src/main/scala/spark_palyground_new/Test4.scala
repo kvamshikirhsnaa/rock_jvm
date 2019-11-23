@@ -39,6 +39,21 @@ object Test4 {
 
     df3.show
 
+    val df2new = df2
+
+    val df4 = arr.foldLeft(df2new) {
+      (tempdf, curr) => {
+        val nestCols = df2.schema(curr).dataType.asInstanceOf[StructType].fields.map(x => x.name)
+        var df = tempdf
+        for (fds <- nestCols) {
+          df = tempdf.withColumn(fds, col(s"${curr}.${fds}"))
+        }
+        df.drop(curr)
+      }
+    }
+
+    df4.show
+
   }
 
 }

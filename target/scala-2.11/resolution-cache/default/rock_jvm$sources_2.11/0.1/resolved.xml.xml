@@ -4,7 +4,7 @@
 		module="rock_jvm$sources_2.11"
 		revision="0.1"
 		status="integration"
-		publication="20191112121342"
+		publication="20191124013001"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
