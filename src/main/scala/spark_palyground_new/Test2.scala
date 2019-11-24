@@ -18,11 +18,12 @@ object Test2 {
     import spark.implicits._
 
     val dfnew = spark.read.option( "multiLine", "true" ).format( "json" ).
-      load( "C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\dummy.json" )
+      load( "F:\\Data\\dummy.json" )
 
     dfnew.show( false )
     println( dfnew.schema )
     dfnew.printSchema()
+
 
     val cust_schema = new StructType().
       add( "IFAM", StringType, true ).
@@ -32,14 +33,14 @@ object Test2 {
         add( "MLrate", StringType, true ).
         add( "Create", ArrayType( new StructType().
           add( "key", StringType, true ).
-          add( "value", StringType, true ) ) ) ) ).
+          add( "value", StringType, true ) ), true ) ), true ).
       add( "CHECK", new StructType().
         add( "Check1", IntegerType, true ).
         add( "Check2", StringType, true ), true )
 
     var json_df = spark.read.option( "multiLine", "true" ).
       format( "json" ).schema( cust_schema ).
-      load( "C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\dummy.json" )
+      load( "F:\\Data\\dummy.json" )
 
     json_df.show( false )
     println( json_df.schema )
@@ -89,11 +90,11 @@ object Test2 {
       if (json_data_df.schema( column_name ).dataType.isInstanceOf[ArrayType]) {
         println( "Inside instance loop of ArrayType: " + column_name )
 
-        // Extracting nested_xml columns/data using explode function
-        json_data_df = json_data_df.withColumn( column_name, explode( json_data_df( column_name ) ) )
+        // Extracting nested json columns/data using explode function
+        json_data_df = json_data_df.withColumn( column_name, explode(json_data_df( column_name )) )
         select_clause_list :+= column_name
       }
-      if (json_data_df.schema( column_name ).dataType.isInstanceOf[StructType]) {
+      else if (json_data_df.schema( column_name ).dataType.isInstanceOf[StructType]) {
         println("Inside instance loop of StuctType: " + column_name )
 
         for (field <- json_data_df.schema(column_name).dataType.asInstanceOf[StructType].fields) {
@@ -107,6 +108,10 @@ object Test2 {
         select_clause_list :+= column_name
       }
     }
+
+    println("json_data_df")
+    json_data_df.show
+    println(select_clause_list)
 
     val columnNames = select_clause_list.map(x => col(x).as(x.replace(".", "_")))
 

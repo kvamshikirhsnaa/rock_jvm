@@ -39,20 +39,22 @@ object Test4 {
 
     df3.show
 
-    val df2new = df2
+    val df4 =  df.select(struct('id, 'name) as "names", struct('loc, 'qual, 'age) as "info")
+    df4.show
 
-    val df4 = arr.foldLeft(df2new) {
+    val df5 = arr.foldLeft(df4) {
       (tempdf, curr) => {
         val nestCols = df2.schema(curr).dataType.asInstanceOf[StructType].fields.map(x => x.name)
-        var df = tempdf
-        for (fds <- nestCols) {
-          df = tempdf.withColumn(fds, col(s"${curr}.${fds}"))
+        val dfnew = nestCols.foldLeft(tempdf) {
+          (tdf, cur) => {
+            tdf.withColumn(cur, col(s"${curr}.${cur}"))
+          }
         }
-        df.drop(curr)
+        dfnew.drop(curr)
       }
     }
 
-    df4.show
+    df5.show
 
   }
 
