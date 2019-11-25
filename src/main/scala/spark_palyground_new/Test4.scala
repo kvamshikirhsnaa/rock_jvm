@@ -39,6 +39,31 @@ object Test4 {
 
     df3.show
 
+
+    // Using foldLeft
+
+    println("Using foldLeft:")
+
+    val df4 = df.select(struct('id, 'name) as "names", struct('loc, 'qual, 'age) as "info")
+    df4.show
+
+    val arr2 = df4.schema.names
+
+    val df5 = arr2.foldLeft(df4) {
+      (tempDF, curr) => {
+        val nestCols = df4.schema(curr).dataType.asInstanceOf[StructType].fields.map(x => x.name)
+        val dfnew = nestCols.foldLeft(tempDF) {
+          (tdf, fld) => {
+            tdf.withColumn(fld, col(s"${curr}.${fld}"))
+          }
+        }
+        dfnew.drop(curr)
+      }
+    }
+
+    df5.show
+
+
   }
 
 }

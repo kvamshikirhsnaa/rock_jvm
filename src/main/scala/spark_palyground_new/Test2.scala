@@ -71,7 +71,10 @@ object Test2 {
         json_df = expand_nested_column( json_df )
         json_df.show( false )
       }
-      print( "Printing nested_column_count_temp: " + nested_column_count_temp )
+      else {
+        json_df.show
+      }
+      println( "Printing nested_column_count_temp: " + nested_column_count_temp )
       nested_column_count = nested_column_count_temp
     }
 
@@ -91,9 +94,11 @@ object Test2 {
 
         // Extracting nested_xml columns/data using explode function
         json_data_df = json_data_df.withColumn( column_name, explode( json_data_df( column_name ) ) )
+        println("After exploding")
+        json_data_df.show
         select_clause_list :+= column_name
       }
-      if (json_data_df.schema( column_name ).dataType.isInstanceOf[StructType]) {
+      else if (json_data_df.schema( column_name ).dataType.isInstanceOf[StructType]) {
         println("Inside instance loop of StuctType: " + column_name )
 
         for (field <- json_data_df.schema(column_name).dataType.asInstanceOf[StructType].fields) {
@@ -107,6 +112,9 @@ object Test2 {
         select_clause_list :+= column_name
       }
     }
+
+    println("After explode only")
+    json_data_df.show
 
     val columnNames = select_clause_list.map(x => col(x).as(x.replace(".", "_")))
 
