@@ -1,0 +1,28 @@
+{
+  "IFAM": "EQR",
+  "KTM": 1523648597,
+  "COL": 21,
+  "DATA": [{
+    "MLrate":"31",
+    "Create":[{
+      "key":"K1",
+      "value":"V1"
+    }, {
+      "key":"K2",
+      "value":"V2"
+    }]
+  }, {
+    "MLrate":"33",
+    "Create":[{
+      "key":"K3",
+      "value":"V3"
+    }, {
+      "key":"K4",
+      "value":"V4"
+    }]
+  }],
+  "CHECK": {
+    "Check1": 1,
+    "Check2": "TWO"
+  }
+}

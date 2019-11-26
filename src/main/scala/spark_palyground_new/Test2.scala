@@ -18,7 +18,7 @@ object Test2 {
     import spark.implicits._
 
     val dfnew = spark.read.option( "multiLine", "true" ).format( "json" ).
-      load( "C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\dummy.json" )
+      load( "src\\main\\resources\\data\\dummy.json" )
 
     dfnew.show( false )
     println( dfnew.schema )
@@ -39,7 +39,7 @@ object Test2 {
 
     var json_df = spark.read.option( "multiLine", "true" ).
       format( "json" ).schema( cust_schema ).
-      load( "C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\dummy.json" )
+      load( "src\\main\\resources\\data\\dummy.json" )
 
     json_df.show( false )
     println( json_df.schema )
