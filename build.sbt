@@ -27,5 +27,20 @@ libraryDependencies += "org.json" % "json" % "20190722"
 // https://mvnrepository.com/artifact/io.delta/delta-core
 libraryDependencies += "io.delta" %% "delta-core" % "0.3.0"
 
+// https://mvnrepository.com/artifact/com.databricks/spark-xml
+libraryDependencies += "com.databricks" %% "spark-xml" % "0.7.0"
+
+libraryDependencies += "org.mongodb.spark" %% "mongo-spark-connector" % "2.4.1"
+
+// https://mvnrepository.com/artifact/org.apache.spark/spark-sql-kafka-0-10
+libraryDependencies += "org.apache.spark" %% "spark-sql-kafka-0-10" % "2.4.0"
+
+// https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+libraryDependencies += "org.apache.kafka" % "kafka-clients" % "2.3.1"
+
+
+
+
+
 
 

@@ -39,15 +39,22 @@ object Test4 {
 
     df3.show
 
-    val df4 =  df.select(struct('id, 'name) as "names", struct('loc, 'qual, 'age) as "info")
+
+    // Using foldLeft
+
+    println("Using foldLeft:")
+
+    val df4 = df.select(struct('id, 'name) as "names", struct('loc, 'qual, 'age) as "info")
     df4.show
 
-    val df5 = arr.foldLeft(df4) {
-      (tempdf, curr) => {
-        val nestCols = df2.schema(curr).dataType.asInstanceOf[StructType].fields.map(x => x.name)
-        val dfnew = nestCols.foldLeft(tempdf) {
-          (tdf, cur) => {
-            tdf.withColumn(cur, col(s"${curr}.${cur}"))
+    val arr2 = df4.schema.names
+
+    val df5 = arr2.foldLeft(df4) {
+      (tempDF, curr) => {
+        val nestCols = df4.schema(curr).dataType.asInstanceOf[StructType].fields.map(x => x.name)
+        val dfnew = nestCols.foldLeft(tempDF) {
+          (tdf, fld) => {
+            tdf.withColumn(fld, col(s"${curr}.${fld}"))
           }
         }
         dfnew.drop(curr)
@@ -55,6 +62,7 @@ object Test4 {
     }
 
     df5.show
+
 
   }
 

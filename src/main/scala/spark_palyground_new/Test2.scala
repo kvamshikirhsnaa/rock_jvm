@@ -18,12 +18,11 @@ object Test2 {
     import spark.implicits._
 
     val dfnew = spark.read.option( "multiLine", "true" ).format( "json" ).
-      load( "F:\\Data\\dummy.json" )
+      load( "src\\main\\resources\\data\\dummy.json" )
 
     dfnew.show( false )
     println( dfnew.schema )
     dfnew.printSchema()
-
 
     val cust_schema = new StructType().
       add( "IFAM", StringType, true ).
@@ -33,14 +32,14 @@ object Test2 {
         add( "MLrate", StringType, true ).
         add( "Create", ArrayType( new StructType().
           add( "key", StringType, true ).
-          add( "value", StringType, true ) ), true ) ), true ).
+          add( "value", StringType, true ) ) ) ) ).
       add( "CHECK", new StructType().
         add( "Check1", IntegerType, true ).
         add( "Check2", StringType, true ), true )
 
     var json_df = spark.read.option( "multiLine", "true" ).
       format( "json" ).schema( cust_schema ).
-      load( "F:\\Data\\dummy.json" )
+      load( "src\\main\\resources\\data\\dummy.json" )
 
     json_df.show( false )
     println( json_df.schema )
@@ -72,7 +71,10 @@ object Test2 {
         json_df = expand_nested_column( json_df )
         json_df.show( false )
       }
-      print( "Printing nested_column_count_temp: " + nested_column_count_temp )
+      else {
+        json_df.show
+      }
+      println( "Printing nested_column_count_temp: " + nested_column_count_temp )
       nested_column_count = nested_column_count_temp
     }
 
@@ -90,8 +92,10 @@ object Test2 {
       if (json_data_df.schema( column_name ).dataType.isInstanceOf[ArrayType]) {
         println( "Inside instance loop of ArrayType: " + column_name )
 
-        // Extracting nested json columns/data using explode function
-        json_data_df = json_data_df.withColumn( column_name, explode(json_data_df( column_name )) )
+        // Extracting nested_xml columns/data using explode function
+        json_data_df = json_data_df.withColumn( column_name, explode( json_data_df( column_name ) ) )
+        println("After exploding")
+        json_data_df.show
         select_clause_list :+= column_name
       }
       else if (json_data_df.schema( column_name ).dataType.isInstanceOf[StructType]) {
@@ -109,9 +113,8 @@ object Test2 {
       }
     }
 
-    println("json_data_df")
+    println("After explode only")
     json_data_df.show
-    println(select_clause_list)
 
     val columnNames = select_clause_list.map(x => col(x).as(x.replace(".", "_")))
 

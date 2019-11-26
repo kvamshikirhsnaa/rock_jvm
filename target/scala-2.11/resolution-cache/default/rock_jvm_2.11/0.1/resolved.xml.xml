@@ -4,7 +4,7 @@
 		module="rock_jvm_2.11"
 		revision="0.1"
 		status="integration"
-		publication="20191124012957"
+		publication="20191126162554"
 	>
 		<description>
 		rock_jvm
@@ -43,5 +43,9 @@
 		<dependency org="org.typelevel" name="frameless-dataset_2.11" rev="0.8.0" conf="compile->default(compile)"/>
 		<dependency org="org.json" name="json" rev="20190722" conf="compile->default(compile)"/>
 		<dependency org="io.delta" name="delta-core_2.11" rev="0.3.0" conf="compile->default(compile)"/>
+		<dependency org="com.databricks" name="spark-xml_2.11" rev="0.7.0" conf="compile->default(compile)"/>
+		<dependency org="org.mongodb.spark" name="mongo-spark-connector_2.11" rev="2.4.1" conf="compile->default(compile)"/>
+		<dependency org="org.apache.spark" name="spark-sql-kafka-0-10_2.11" rev="2.4.0" conf="compile->default(compile)"/>
+		<dependency org="org.apache.kafka" name="kafka-clients" rev="2.3.1" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>
