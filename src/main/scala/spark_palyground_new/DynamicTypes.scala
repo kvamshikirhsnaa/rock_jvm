@@ -5,6 +5,8 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 
+import scala.annotation.tailrec
+
 // dynamically handling struct and array types
 
 object DynamicTypes {
@@ -51,7 +53,7 @@ object DynamicTypes {
     df2.show
     df2.printSchema()
 
-    val df3 = arrstrDF2(df1)
+    val df3 = arrStrDF2(df1)
     df3.show
 
 
@@ -75,13 +77,13 @@ object DynamicTypes {
     }
   }
 
-  def arrstrDF2(df: DataFrame) = {
-    val cols = df.schema.map( x => (x.name, x.dataType) ).map( x => (x._1, x._2.typeName) ).
-      filter( x => (x._2 == "struct") || (x._2 == "array") ).
-      map( x => x._1 )
+  def arrStrDF2(df: DataFrame): DataFrame = {
+    val cols = df.schema.map( x => (x.name, x.dataType.typeName) ).
+      filter( x => (x._2 == "struct") || (x._2 == "array") ).map( x => x._1 )
 
+    @tailrec
     def arrStrDFRec(df: DataFrame, cols: Seq[String]): DataFrame = {
-      if (df.schema.map(x => x.dataType).map(x => x.typeName).forall(x => (x != "struct") && (x != "array"))){
+      if (df.schema.map(x => x.dataType.typeName).forall(x => (x != "struct") && (x != "array"))){
         df
       }
       else {
@@ -91,7 +93,7 @@ object DynamicTypes {
               tempDF.withColumn( curr, explode( col( curr ) ) )
             }
             else {
-              val nestCols = tempDF.schema( curr ).dataType.asInstanceOf[StructType].fields.map( x => x.name )
+              val nestCols = tempDF.schema( curr ).dataType.asInstanceOf[StructType].fieldNames
               val dfnew = nestCols.foldLeft( tempDF ) {
                 (tdf, fld) => {
                   tdf.withColumn( s"${curr}_${fld}", col( s"${curr}.${fld}" ) )
@@ -101,12 +103,13 @@ object DynamicTypes {
             }
           }
         }
-        val arr = df2.schema.map( x => (x.name, x.dataType) ).map( x => (x._1, x._2.typeName) ).
-          filter( x => (x._2 == "struct") || (x._2 == "array") ).
-          map( x => x._1 )
+        val arr = df2.schema.map( x => (x.name, x.dataType.typeName) ).
+          filter( x => (x._2 == "struct") || (x._2 == "array") ).map( x => x._1 )
+
         arrStrDFRec(df2, arr)
       }
     }
+
     arrStrDFRec(df, cols)
   }
 

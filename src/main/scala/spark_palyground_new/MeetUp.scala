@@ -58,8 +58,8 @@ object MeetUp {
           }
         }
         val arr = df2.schema.map( x => (x.name, x.dataType) ).map( x => (x._1, x._2.typeName) ).
-          filter( x => (x._2 == "struct") || (x._2 == "array") ).
-          map( x => x._1 )
+          filter( x => (x._2 == "struct") || (x._2 == "array") ).map( x => x._1 )
+
         arrStrDFRec(df2, arr)
       }
     }
