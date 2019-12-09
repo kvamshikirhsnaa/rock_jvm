@@ -1,0 +1,6 @@
+1,saikrishna,22,5000,M,10
+2,aravind,23,4500,M,11
+3,Narahari,29,3000,M,12
+4,prakash,26,3000,M,13
+5,swarna,30,3500,F,10
+6,goutami,26,4000,F,12

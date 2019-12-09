@@ -38,7 +38,8 @@ libraryDependencies += "org.apache.spark" %% "spark-sql-kafka-0-10" % "2.4.0"
 // https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
 libraryDependencies += "org.apache.kafka" % "kafka-clients" % "2.3.1"
 
-
+// https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch-spark-20
+libraryDependencies += "org.elasticsearch" %% "elasticsearch-spark-20" % "7.4.2"
 
 
 
