@@ -2,13 +2,10 @@ package spark_palyground_new
 
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import com.databricks.spark.xml._
-import org.apache.spark.sql.functions.{col, explode}
 import org.apache.spark.sql.types._
+import org.apache.spark.sql.functions._
 
 import scala.annotation.tailrec
-
-
 
 object NestedParser {
   def main(args: Array[String]): Unit = {
@@ -21,58 +18,78 @@ object NestedParser {
 
     import spark.implicits._
 
-    val df1 = spark.read.option( "rowTag", "CourseOffering" ).
-      option( "inferSchema", "true" ).format( "xml" ).
-      load( "src\\main\\resources\\data\\dummy2.xml" )
+    val df1 = spark.read.option( "multiLine", "true" ).
+      option("inferSchema", "true").format( "json" ).
+      load( "src\\main\\resources\\data\\dummy2.json" )
 
-    df1.show( false )
-    df1.printSchema()
+    df1.show
 
-    val df2 = arrStrDF(df1)
-
+    val df2 =nestedParser(df1)
     df2.show
-    df2.printSchema()
 
 
 
 
   }
 
-  def arrStrDF(df: DataFrame): DataFrame = {
-    val cols = df.schema.map( x => (x.name, x.dataType.typeName) ).
-      filter( x => (x._2 == "struct") || (x._2 == "array") ).map( x => x._1 )
+  def nestedParser(df: DataFrame) = {
 
-    @tailrec
-    def arrStrDFRec(df: DataFrame, cols: Seq[String]): DataFrame = {
-      if (df.schema.map(x => x.dataType.typeName).forall(x => (x != "struct") && (x != "array"))){
+    val nestedCnt = df.schema.map(x => x.dataType.typeName).
+      filter(x => x == "struct" || x == "array").size
+
+    def nestedParserRec(df: DataFrame, cnt: Int): DataFrame = {
+      if (cnt == 0) {
         df
       }
+
+      else if (df.schema.map(x => x.dataType.typeName).exists(x => x == "struct") ){
+        val plainCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
+          filter( x => x._2 != "struct" && x._2 != "array" ).map( x => x._1 )
+
+        val structCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
+          filter( x => x._2 == "struct" ).map( x => x._1 )
+
+        val nestedStructFlds = structCols.foldLeft( Seq.empty[String] ) {
+          (tempSeq, curr) => {
+            val names = df.schema( curr ).dataType.asInstanceOf[StructType].fieldNames.
+              map( x => s"${curr}.${x}" )
+            tempSeq ++ names
+          }
+        }
+
+        val flds = plainCols ++ nestedStructFlds
+        val cols = flds.map( x => col( x ).as( x.replace( '.', '_' ) ) )
+
+        val dfnew = df.select( cols: _* )
+
+        val nestedCntNew = dfnew.schema.map( x => x.dataType.typeName ).
+          filter( x => x == "struct" || x == "array" ).size
+
+        nestedParserRec( dfnew, nestedCntNew )
+
+      }
       else {
-        val df2 = cols.foldLeft(df) {
+
+        val arrCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
+          filter( x => x._2 == "array" ).map( x => x._1 )
+
+        val dfnew2 = arrCols.foldLeft(df) {
           (tempDF, curr) => {
             if (tempDF.schema( curr ).dataType.isInstanceOf[ArrayType]) {
               tempDF.withColumn( curr, explode( col( curr ) ) )
             }
-            else {
-              val nestCols = tempDF.schema( curr ).dataType.asInstanceOf[StructType].fieldNames
-              val dfnew = nestCols.foldLeft( tempDF ) {
-                (tdf, fld) => {
-                  tdf.show
-                  tdf.withColumn( s"${curr}_${fld}", col( s"${curr}.${fld}" ) )
-                }
-              }
-              dfnew.drop( curr )
-            }
+            else tempDF
           }
         }
-        val arr = df2.schema.map( x => (x.name, x.dataType.typeName) ).
-          filter( x => (x._2 == "struct") || (x._2 == "array") ).map( x => x._1 )
 
-        arrStrDFRec(df2, arr)
+        val nestedCntNew2 = dfnew2.schema.map( x => x.dataType.typeName ).
+          filter( x => x == "struct" || x == "array" ).size
+
+        nestedParserRec( dfnew2, nestedCntNew2 )
       }
     }
-
-    arrStrDFRec(df, cols)
+    nestedParserRec(df, nestedCnt)
   }
+
 
 }
