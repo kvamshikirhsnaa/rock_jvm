@@ -19,77 +19,59 @@ object NestedParser {
     import spark.implicits._
 
     val df1 = spark.read.option( "multiLine", "true" ).
-      option("inferSchema", "true").format( "json" ).
+      option( "inferSchema", "true" ).format( "json" ).
       load( "src\\main\\resources\\data\\dummy2.json" )
 
     df1.show
+    df1.printSchema()
 
-    val df2 =nestedParser(df1)
+    val df2 = nestedParser(df1)
+
     df2.show
-
-
-
-
+    df2.printSchema()
   }
 
-  def nestedParser(df: DataFrame) = {
+  @tailrec
+  def nestedParser(df: DataFrame): DataFrame = {
 
-    val nestedCnt = df.schema.map(x => x.dataType.typeName).
-      filter(x => x == "struct" || x == "array").size
+    val isAllPlains = df.schema.map(x => x.dataType.typeName).forall(x => (x != "struct") && (x != "array"))
+    val types = df.schema.map(x => x.dataType.typeName)
 
-    def nestedParserRec(df: DataFrame, cnt: Int): DataFrame = {
-      if (cnt == 0) {
-        df
-      }
+    if (isAllPlains) df
+    else if (types.exists(x => x == "array") ) {
 
-      else if (df.schema.map(x => x.dataType.typeName).exists(x => x == "struct") ){
-        val plainCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
-          filter( x => x._2 != "struct" && x._2 != "array" ).map( x => x._1 )
+      val arrCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
+        filter( x => x._2 == "array" ).map( x => x._1 )
 
-        val structCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
-          filter( x => x._2 == "struct" ).map( x => x._1 )
-
-        val nestedStructFlds = structCols.foldLeft( Seq.empty[String] ) {
-          (tempSeq, curr) => {
-            val names = df.schema( curr ).dataType.asInstanceOf[StructType].fieldNames.
-              map( x => s"${curr}.${x}" )
-            tempSeq ++ names
-          }
+      val dfnew2 = arrCols.foldLeft(df) {
+        (tempDF, curr) => {
+          tempDF.withColumn( curr, explode( col( curr ) ) )
         }
-
-        val flds = plainCols ++ nestedStructFlds
-        val cols = flds.map( x => col( x ).as( x.replace( '.', '_' ) ) )
-
-        val dfnew = df.select( cols: _* )
-
-        val nestedCntNew = dfnew.schema.map( x => x.dataType.typeName ).
-          filter( x => x == "struct" || x == "array" ).size
-
-        nestedParserRec( dfnew, nestedCntNew )
-
       }
-      else {
-
-        val arrCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
-          filter( x => x._2 == "array" ).map( x => x._1 )
-
-        val dfnew2 = arrCols.foldLeft(df) {
-          (tempDF, curr) => {
-            if (tempDF.schema( curr ).dataType.isInstanceOf[ArrayType]) {
-              tempDF.withColumn( curr, explode( col( curr ) ) )
-            }
-            else tempDF
-          }
-        }
-
-        val nestedCntNew2 = dfnew2.schema.map( x => x.dataType.typeName ).
-          filter( x => x == "struct" || x == "array" ).size
-
-        nestedParserRec( dfnew2, nestedCntNew2 )
-      }
+      nestedParser( dfnew2)
     }
-    nestedParserRec(df, nestedCnt)
-  }
+    else {
+      val plainCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
+        filter( x => x._2 != "struct" && x._2 != "array" ).map( x => x._1 )
 
+      val structCols = df.schema.map( x => (x.name, x.dataType.typeName) ).
+        filter( x => x._2 == "struct" ).map( x => x._1 )
+
+      val nestedStructFlds = structCols.foldLeft( Seq.empty[String] ) {
+        (tempSeq, curr) => {
+          val names = df.schema( curr ).dataType.asInstanceOf[StructType].fieldNames.
+            map( x => s"${curr}.${x}" )
+          tempSeq ++ names
+        }
+      }
+      val flds = plainCols ++ nestedStructFlds
+      val cols = flds.map( x => col( x ).as( x.replace( '.', '_' ) ) )
+
+      val dfnew = df.select( cols: _* )
+
+      nestedParser( dfnew )
+
+    }
+  }
 
 }
