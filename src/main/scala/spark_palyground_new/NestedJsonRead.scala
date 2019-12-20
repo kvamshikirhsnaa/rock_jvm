@@ -18,6 +18,8 @@ object NestedJsonRead {
 
       import spark.implicits._
 
+/*
+
       val mongodb_host_name = "localhost"
       val mongodb_port_no = "27017"
       // val mongodb_user_name = "admin"
@@ -29,6 +31,8 @@ object NestedJsonRead {
         s"${mongodb_port_no}/${mongodb_datebase_name}.${mogodb_collection_name}"
 
       println("mongodb_ uri" + mongodb_uri)
+
+*/
 
       val df1 = spark.read.option( "multiLine", "true" ).
         option("inferSchema", "true").format( "json" ).
