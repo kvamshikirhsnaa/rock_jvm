@@ -73,6 +73,9 @@ object Test4 {
 
     println(joindfnew.rdd.getNumPartitions)
 
+    println("Skewed Data for 1 Partition")
+    println("---------------------------")
+
     joindfnew.mapPartitions(x => Iterator(x.size)).collect.foreach(println)
 
     def newrand = Random.nextInt(50)
@@ -96,14 +99,12 @@ object Test4 {
 
     println(joined.count)
 
+    println(joined.rdd.getNumPartitions)
 
+    println("Distributing Skewed Data Equally")
+    println("--------------------------------")
 
-
-
-
-
-
-
+    joined.mapPartitions(x => Iterator(x.size)).collect.foreach(println)
 
 
   }

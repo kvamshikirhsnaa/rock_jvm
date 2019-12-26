@@ -85,7 +85,7 @@ object AggFun {
       .selectExpr("total_sal/cnt","avg_sal","mean").show
 
 
-//    Varioance and Standard Deviation:
+//    Variance and Standard Deviation:
 
 //    Calculating the mean naturally brings up questions about the variance and standard deviation.
 //    These are both measures of the spread of the data around the mean. The variance is the average

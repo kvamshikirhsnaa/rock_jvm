@@ -30,7 +30,11 @@ object Test3 {
 
     val df1 = Seq.fill(100)(randGen).toDF
 
+    df1.show
+
     val df2 = df1.select(monotonically_increasing_id + 1 as "post_id", $"profile_id", 'interaction)
+
+    df2.show
 
 /*    df2.repartition(1).write.option("header", "true").
       csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\posts")*/

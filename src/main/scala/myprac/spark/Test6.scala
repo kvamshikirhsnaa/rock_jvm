@@ -48,7 +48,7 @@ object Test6 {
     import spark.implicits._
 
     val ds = spark.read.option("header", "true").option("inferSchema", "true")
-      .csv("C:\\Users\\Kenche.vamshikrishna\\Desktop\\emp.txt").as[Employee]
+      .csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\emp.txt").as[Employee]
 
     ds.show()
 

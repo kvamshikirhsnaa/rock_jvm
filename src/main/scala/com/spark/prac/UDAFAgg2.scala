@@ -29,7 +29,7 @@ object UDAFAgg2 {
 
     spark.sparkContext.setLogLevel("ERROR")
 
-    val belowThreshold = new BelowThreshold[(String, Int)](_._2 < -40).toColumn
+    val belowThreshold = new BelowThreshold[(String, Int)](x => x._2 < -40).toColumn
 
     val df = spark.sparkContext.parallelize(Seq(("a", 0), ("a", 1), ("a", 50), ("b", -50),("b",40)))
       .toDF("name", "power")
@@ -37,6 +37,9 @@ object UDAFAgg2 {
     df.show
 
     df.as[(String,Int)].groupByKey(_._1).agg(belowThreshold).show
+
+    // using aggregateByKey:
+    // ---------------------
 
     val rdd = df.rdd.map(x => x.toString().replace("[","").replace("]",""))
 

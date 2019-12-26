@@ -32,7 +32,7 @@ object Test5 {
     // there seems to be a bug with nulls
     // and so the need for the following union
     val cityNull = Seq(
-      (null.asInstanceOf[String], 2016, 3),
+      (null, 2018, 3),
       ("Warsaw", 2017, 2),
       ("Warsaw", 2017, 2),
       ("Warsaw", 2018, 4))
@@ -58,7 +58,7 @@ object Test5 {
       .agg(grouping("city"), grouping("year")) // <-- grouping here
       .sort($"city".desc_nulls_last, $"year".desc_nulls_last)
 
-    //q.show
+    q.show
 
     val query = workshops
       .cube("city", "year")

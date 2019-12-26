@@ -8,6 +8,7 @@ import java.sql.Timestamp
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.catalyst.encoders.RowEncoder
 import scala.collection.mutable.ListBuffer
+import org.apache.spark.sql.{Encoder, Encoders, Row}
 
 
 case class ClickStream(user_id: Long, datetime: Timestamp, os: String, browser: String, response_time_ms: Long, url: String)
@@ -17,16 +18,16 @@ object Test11 {
   def main(args: Array[String]): Unit = {
 
     val spark = SparkSession.builder().
-      appName("sample21").
-      master("local").
+      appName( "sample21" ).
+      master( "local" ).
       getOrCreate
 
-    spark.sparkContext.setLogLevel("ERROR")
+    spark.sparkContext.setLogLevel( "ERROR" )
 
     import spark.implicits._
 
-    val df = spark.read.option("inferSchema", "true").
-      json("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\clickStream.json")
+    val df = spark.read.option( "inferSchema", "true" ).
+      json( "C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\clickStream.json" )
 
     df.show
     df.printSchema()
@@ -34,17 +35,16 @@ object Test11 {
 
     // approach2:
 
-    val format = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss")
+    val format = new SimpleDateFormat( "yyyy-MM-dd' 'HH:mm:ss" )
 
     val rdd = spark.sparkContext.
-      textFile("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\clickStream.json")
+      textFile( "C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\clickStream.json" )
 
-    val parsedRDD  = rdd.map(x =>
-    {
-      val obj = new JSONObject(x)
-      ClickStream(obj.getLong("user_id"), new Timestamp(format.parse(obj.getString("datetime")).getTime),
-        obj.getString("os"), obj.getString("browser"), obj.getLong("response_time_ms"),
-        obj.getString("url"))
+    val parsedRDD = rdd.map( x => {
+      val obj = new JSONObject( x )
+      ClickStream( obj.getLong( "user_id" ), new Timestamp( format.parse( obj.getString( "datetime" ) ).getTime ),
+        obj.getString( "os" ), obj.getString( "browser" ), obj.getLong( "response_time_ms" ),
+        obj.getString( "url" ) )
     }
     )
 
@@ -54,12 +54,14 @@ object Test11 {
     df2.printSchema()
 
     // approach3: using Encoders
-
-/*    val groupByColumns = List(("os","string"),("browser","string"))
+    /*
+    val groupByColumns = List(("os","string"),("browser","string"))
     val colToAvg = ("response_time_ms", "integer")
 
     val DF3 = spark.read.
       text("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\clickStream.json")
+
+
 
     var schema = new StructType
 
@@ -79,8 +81,9 @@ object Test11 {
       org.apache.spark.sql.Row(buffer.toList:_*)
     })
 
-    DF4.show()*/
+    DF4.show()
 
+  */
   }
 
 }

@@ -22,13 +22,13 @@ object Test1 {
 
     val df = spark.read.option("header", "true").
       option("inferSchema", "true").
-      csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\emp3.txt")
+      csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\emp2.txt")
 
     df.show
 
 
-/*
 
+/*
     val df2 = df.withColumn("end_dt", lit(null).cast(TimestampType)).
       withColumn("current", lit("true"))
 
@@ -37,8 +37,8 @@ object Test1 {
 
     df2.write.mode("append").format("delta").
       save("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new")
-
 */
+
 
 
     val dlt = DeltaTable.forPath("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\delta\\delta_op_new")
@@ -51,6 +51,7 @@ object Test1 {
       union(df.selectExpr("id as mergekey", "*"))
 
     stagingUpdates.printSchema()
+    stagingUpdates.show
 
     dlt.as("customers").
       merge(stagingUpdates.as("staging_updates"), $"customers.id" === $"mergekey").

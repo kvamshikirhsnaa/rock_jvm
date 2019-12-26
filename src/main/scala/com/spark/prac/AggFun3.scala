@@ -19,7 +19,8 @@ object AggFun3 {
 
     val df1 = spark.read
       .option("inferSchema", "true")
-      .csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\employee.txt")
+      .option("header", "true")
+      .csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\employee.txt")
       .toDF("name","age","dno","sal","day")
 
     df1.show
@@ -88,9 +89,9 @@ object AggFun3 {
 //    Now where you see the `null` values is where you’ll find the grand totals.
 //    A `null` in both rollup columns specifies the grand total across both of those column.
 
-    df4.where($"date" isNull).show
+    df4.where($"date".isNull).show
 
-    df4.where($"dno" isNull).show
+    df4.where($"dno".isNull).show
 
 //    Cube:
 //

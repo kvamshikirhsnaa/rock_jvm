@@ -17,8 +17,7 @@ object Test9 {
 
     import spark.implicits._
 
-    val lst = Seq(("A1", "B1", "C1",1),
-      ("A2", "B2", "C2",2))
+    val lst = Seq(("A1", "B1", "C1",1), ("A2", "B2", "C2",2))
 
     def randGen = if (Random.nextBoolean) lst(0) else lst(1)
 

@@ -25,9 +25,12 @@ object FoldLeftAgg2 {
       ("r4", 1, 2)
     )).toDF("ID", "a", "b")
 
-    val df2 = df.select($"ID", df("a").cast("Int"), df("b").cast("Int"))
-
     df.show
+    df.printSchema()
+
+    val df2 = df.select($"ID", $"a".cast("integer"), $"b".cast("integer"))
+
+    df2.printSchema()
 
     val c = when($"a" === $"b" === 1, $"a" + $"b") when((($"a" === 1) || ($"b" === 1)), 1) otherwise 0
 

@@ -7,6 +7,11 @@ object Test4 {
     println( secondHighestEle( lst ) )
     println( secondHighestEle2( lst ) )
 
+
+    val lst2 = List( -1, -3, -4, -6, -7, -8, -2, -15, -13, -15, -9 )
+    println( secondHighestEle( lst2 ) )
+    println( secondHighestEle2( lst2 ) )
+
   }
 
   def secondHighestEle(x: List[Int]): Int = {

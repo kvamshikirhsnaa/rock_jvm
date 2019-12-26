@@ -70,14 +70,15 @@ object FoldLeft4Agg4 {
     def arrToItem(arr: Array[String]): Item = {
       if (arr.length != 4) {
         throw new Exception(s"Invalid row: ${arr.foreach(print)}; must contain only 4 entries!")
-      } else {
-        val n = arr.headOption.getOrElse("N/A")
-        val cat = arr.lift(1).getOrElse("N/A")
-        val amt = arr.lift(2).filter(_.matches("^[0-9]*$")).map(_.toInt).getOrElse(0)
-        val p = arr.lastOption.filter(_.matches("^[0-9]*$")).map(_.toInt).getOrElse(0)
-
-        Item(n, cat, amt, p) // we can give (n,cat,amt,p) just tuple instead of case class
       }
+
+      val n = arr.headOption.getOrElse("N/A")
+      val cat = arr.lift(1).getOrElse("N/A")
+      val amt = arr.lift(2).filter(_.matches("^[0-9]*$")).map(_.toInt).getOrElse(0)
+      val p = arr.lastOption.filter(_.matches("^[0-9]*$")).map(_.toInt).getOrElse(0)
+
+      Item(n, cat, amt, p) // we can give (n,cat,amt,p) just tuple instead of case class
+
     }
 
     // original code with case class and method above used

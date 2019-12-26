@@ -96,6 +96,8 @@ object DariaFunc {
       ("funny", "joke")
     ).toDF("A b C", "de F")
 
+    sourceDF3.show
+
     val actualDF3 = sourceDF3.transform(snakeCaseColumns)
 
     actualDF3.show

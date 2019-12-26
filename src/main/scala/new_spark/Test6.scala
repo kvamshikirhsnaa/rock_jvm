@@ -27,9 +27,7 @@ object Test6 {
       MakeModel("FORD", "FIESTA")
     )
 
-    def randomMakeModel(): MakeModel = {
-      makeModelSet(0)
-    }
+    def randomMakeModel(): MakeModel = makeModelSet(0)
 
     def randomEngineSize() = BigDecimal(s"1.${Random.nextInt(9)}")
 

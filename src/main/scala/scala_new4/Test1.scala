@@ -77,6 +77,7 @@ object Test1 {
     val map3 = new HashMap[Employee2, String]()
     map3.put(empnew1, "saikrishna")
     map3.put(empnew2, "saikrishna")
+    map3.put(empnew3, "saikrishna")
 
     println(map3.size)     // 1
 

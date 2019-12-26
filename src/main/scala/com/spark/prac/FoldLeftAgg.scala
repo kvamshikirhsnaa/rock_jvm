@@ -28,7 +28,9 @@ object FoldLeftAgg {
 
     sourceDF.show()
 
-    val actualDF = Seq("name", "country", "profession").foldLeft(sourceDF) {
+    val cols = sourceDF.columns
+
+    val actualDF = cols.foldLeft(sourceDF) {
       (memoDF, colName) => memoDF.withColumn(
         colName, regexp_replace(col(colName), "\\s+", ""))
     }

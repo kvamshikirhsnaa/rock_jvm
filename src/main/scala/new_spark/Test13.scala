@@ -23,8 +23,7 @@ object Test13 {
 
     df.show
 
-    val df2 = df.select(split('names, ",") as "newnames").
-      drop("names")
+    val df2 = df.select(split('names, ",") as "newnames")
 
     df2.show
 
