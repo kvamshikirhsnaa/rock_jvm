@@ -32,7 +32,7 @@ object Test4 {
 
   def secondHighestEle2(x: List[Int]) = {
     var secondMax = Integer.MIN_VALUE
-    val max = x.foldLeft( 0 ) { (a, b) => {
+    val max = x.foldLeft( secondMax ) { (a, b) => {
       if (a > b) {
         if (b > secondMax) {
           secondMax = b
