@@ -4,6 +4,7 @@ object Test6 {
   def main(args: Array[String]): Unit = {
 
 
+    println(isPrime(9))
     println(isPrime(19))
     println(isPrime(12351))
     println(isPrime(235472657))
