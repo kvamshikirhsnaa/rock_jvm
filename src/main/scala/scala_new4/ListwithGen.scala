@@ -75,8 +75,6 @@ object ListwithGen {
 
     }
 
-    // Empty:
-
     val empty = Empty
     println(empty)
     println(empty.isEmpty)
@@ -85,6 +83,7 @@ object ListwithGen {
     val lst = empty.add(2).add(4).add(5).add(6).add(8).add(9)
     println(lst)
     println(lst.contains(4))
+    println(lst.contains(7))
     println(lst.remove(4))
     println(lst.map(new MyTransformer[Int, Int] {
       def transform(x: Int): Int = x * 2
