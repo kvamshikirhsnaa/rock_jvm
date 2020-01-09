@@ -45,7 +45,7 @@ class Cons(h: Int, t: MyList) extends MyList {
   }
 }
 
-object Test10 {
+object LinkedList {
   def main(args: Array[String]): Unit = {
 
     val empty = Empty
