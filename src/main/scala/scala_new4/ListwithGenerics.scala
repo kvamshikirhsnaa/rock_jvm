@@ -66,8 +66,10 @@ object ListwithGenerics {
 
     val lstnew1 = new ConsGen[Int](5, empty)
     println(lstnew1)
-    println(lstnew1.add(0, new ConsGen[String]("hello", empty)).add("hi"))
+    println(lstnew1.add(0, new ConsGen("hello", empty)).add("hi"))
     println(lstnew1.add(0).add("hello").add("hi"))
+    println(lstnew1.add(true).add(5.0).add(List(1,2,3), List(4,5,6)))
+    println(lstnew1.add(true).add(5.0).add((List(1,2,3), List(4,5,6))))
 
   }
 
