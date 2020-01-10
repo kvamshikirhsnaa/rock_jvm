@@ -96,6 +96,12 @@ object ListwithGen {
     }))
 
 
+    val lstnew: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", Empty))
+    println(lstnew)
+    println(lstnew.getClass)
+    println(lstnew.contains(3))
+    println(lstnew.remove(2))
+
 
   }
 

@@ -5,7 +5,8 @@ class Animal
 class Dog extends Animal
 class Cat extends Animal
 
-class CovariantList[+A]   // accept child class instances
+class CovariantList[+A] // accept child class instances
+
 
 class ContravariantList[-A]  // accept parent class instances
 
