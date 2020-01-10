@@ -28,7 +28,7 @@ object ListwithGen {
       def contains[A >: Nothing](x: A): Boolean = false
       def remove[A >: Nothing](x : A): MyList[Nothing] = throw new NoSuchElementException
       def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
-      def size(x: Int = 0): Int = 0
+      def size(x: Int = 0): Int = x
       def map[B](transformer: Nothing => B): MyList[B] = MyEmpty
       def filter(predicate: Nothing => Boolean): MyList[Nothing] = MyEmpty
       def flatMap[B](transformer: Nothing => MyList[B]): MyList[B] = MyEmpty
