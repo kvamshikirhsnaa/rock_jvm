@@ -1,4 +1,4 @@
-package scala_new4
+package udemy_rockjvm
 
 class Writer(val firstName: String, val surName: String, val year: Int ) {
   def fullname(): String = firstName + " " + surName

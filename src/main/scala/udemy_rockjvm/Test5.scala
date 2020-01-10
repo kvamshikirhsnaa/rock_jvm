@@ -1,4 +1,4 @@
-package scala_new4
+package udemy_rockjvm
 
 object Test5 {
   def main(args: Array[String]): Unit = {

@@ -1,4 +1,4 @@
-package scala_new4
+package udemy_rockjvm
 
 class Person(val name: String, val favMovie: String) {
   def likes(movie: String) = movie == favMovie

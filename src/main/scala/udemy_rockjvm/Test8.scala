@@ -1,4 +1,4 @@
-package scala_new4
+package udemy_rockjvm
 
 
 class Counter(val count: Int = 0) {
