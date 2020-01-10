@@ -32,6 +32,8 @@ object GenericsNew {
     val animals: CovariantList[Animal]= new CovariantList[Dog](d1, Empty )
     println(animals)
     println(animals.add(c1))
+    println(animals.add("fefree"))
+    println(animals.add((1,3,5,6)))
 
 //    val dogsNcats: CovariantList[Dog]= new CovariantList[Cat](c1, Empty )
 

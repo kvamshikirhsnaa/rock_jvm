@@ -3,7 +3,7 @@ package udemy_rockjvm
 object ListwithGen {
   def main(args: Array[String]): Unit = {
 
-    trait MyTransformer[-A, B] {
+    trait MyTransformer[-A, +B] {
       def transform(ele: A): B
     }
 
@@ -18,6 +18,7 @@ object ListwithGen {
       def add[B >: A](ele: B): MyList[B]
       def contains[B >: A](ele: B): Boolean
       def remove[B >: A](ele: B): MyList[B]
+      def size(x: Int): Int
       def ++[B >: A](list: MyList[B]): MyList[B]
       def map[B](transformer: MyTransformer[A,B]): MyList[B]
       def filter(predicate: MyPredicate[A]): MyList[A]
@@ -35,6 +36,7 @@ object ListwithGen {
       def contains[A >: Nothing](x: A): Boolean = false
       def remove[A >: Nothing](x : A): MyList[Nothing] = throw new NoSuchElementException
       def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
+      def size(x: Int = 0): Int = x
       def map[B](transformer: MyTransformer[Nothing, B]): MyList[B] = Empty
       def filter(predicate: MyPredicate[Nothing]): MyList[Nothing] = Empty
       def flatMap[B](transformer: MyTransformer[Nothing, MyList[B]]): MyList[B] = Empty
@@ -55,8 +57,13 @@ object ListwithGen {
         if (h == x) t
         else new Cons(h, t.remove(x))
       }
+
       def ++[B >: A](list: MyList[B]): MyList[B] = {
         new Cons(h, t ++ list)
+      }
+      def size(x: Int = 1): Int = {
+        if (t.isEmpty) x
+        else t.size(x + 1)
       }
       def map[B](transformer: MyTransformer[A, B]): MyList[B] = {
         new Cons(transformer.transform(h), t.map(transformer))
@@ -95,13 +102,18 @@ object ListwithGen {
       def transform(x: Int): MyList[Int] = new Cons(x, new Cons(x + 2, Empty))
     }))
 
-
     val lstnew: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", Empty))
     println(lstnew)
     println(lstnew.getClass)
-    println(lstnew.contains(3))
-    println(lstnew.remove(2))
+    //println(lstnew.contains(3))
+    println(lstnew.remove(1))
+    println(lstnew.size())
 
+
+
+    val lstnew2: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[String]("world", Empty)))
+//    val lstnew3: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[Int](5, Empty)))
+//    val lstnew4: Cons[Any] = new Cons[Any](1, new Cons[Int](2, new Cons[String]("hello", Empty)))
 
   }
 
