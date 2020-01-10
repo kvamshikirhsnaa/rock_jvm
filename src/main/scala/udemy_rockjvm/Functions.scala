@@ -19,6 +19,47 @@ object Functions {
 
 
 
+    // define anonymous/lambda function
+
+    val doubler = (x: Int) => x * 2
+    println(doubler(9))
+
+    val tripler: Int => Int = x => x * 3
+    println(tripler(6))
+
+
+    // multiple params in lambda
+
+    val addernew: (Int, Int) => Int = (x, y) => x + y
+    println(addernew(4,5))
+
+    val addernew2 = (x: Int, y: Int) => x + y
+    println(addernew2(2,3))
+
+
+    // no params
+    val jstDoSmthng: () => Int = () => 3
+    println(jstDoSmthng) // returns ananymous function
+    println(jstDoSmthng()) // returns 3
+
+
+    // curly braces with lambda
+    val stringToInt = { (str: String) =>
+      str.toInt
+    }
+    println(stringToInt("5") + 6)
+
+
+    val superAdderNew: Int => Int => Int = x => y => (x + y)
+    val superAdderNew2 = (x: Int) => (y: Int) => (x + y)
+    println(superAdderNew(3)) // returns function
+    println(superAdderNew2(4)) // returns function
+
+    println(superAdderNew(3)(4))
+    println(superAdderNew2(5)(4))
+
+
+
   }
 
 }

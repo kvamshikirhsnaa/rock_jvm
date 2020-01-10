@@ -20,7 +20,7 @@ object ListwithGen {
       override def toString: String = "[" + printElements + "]"
     }
 
-    object Empty extends MyList[Nothing] {
+    object MyEmpty extends MyList[Nothing] {
       def head: Nothing = throw new NoSuchElementException
       def tail: Nothing = throw new NoSuchElementException
       def isEmpty: Boolean = true
@@ -29,9 +29,9 @@ object ListwithGen {
       def remove[A >: Nothing](x : A): MyList[Nothing] = throw new NoSuchElementException
       def ++[B >: Nothing](list: MyList[B]): MyList[B] = list
       def size(x: Int = 0): Int = 0
-      def map[B](transformer: Nothing => B): MyList[B] = Empty
-      def filter(predicate: Nothing => Boolean): MyList[Nothing] = Empty
-      def flatMap[B](transformer: Nothing => MyList[B]): MyList[B] = Empty
+      def map[B](transformer: Nothing => B): MyList[B] = MyEmpty
+      def filter(predicate: Nothing => Boolean): MyList[Nothing] = MyEmpty
+      def flatMap[B](transformer: Nothing => MyList[B]): MyList[B] = MyEmpty
 
       def printElements: String = ""
     }
@@ -74,7 +74,7 @@ object ListwithGen {
 
     }
 
-    val empty = Empty
+    val empty = MyEmpty
     println(empty)
     println(empty.isEmpty)
     // println(empty.head)
@@ -85,32 +85,26 @@ object ListwithGen {
     println(lst.contains(4))
     println(lst.contains(7))
     println(lst.remove(4))
-    println(lst.map(new Function1[Int, Int] {
-      override def apply(x: Int): Int = x * 2
-    }))
-    println(lst.filter(new Function1[Int, Boolean] {
-      override def apply(x: Int): Boolean = x % 2 == 0
-    }))
-    println(lst.flatMap(new Function1[Int, MyList[Int]] {
-      override def apply(x: Int): MyList[Int] = new Cons(x, new Cons(x + 2, Empty))
-    }))
+    println(lst.map(x => x * 2))
+    println(lst.filter(x => x % 2 == 0))
+    println(lst.flatMap(x => new Cons(x, new Cons(x + 2, MyEmpty))))
 
-    val lstnew: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", Empty))
+    val lstnew: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", MyEmpty))
     println(lstnew)
     println(lstnew.getClass)
     //println(lstnew.contains(3))
     println(lstnew.remove(1))
     println(lstnew.size())
 
-
-    val lst2 = new Cons[Int](1, new Cons(2, new Cons(3, new Cons(4, new Cons(5, Empty)))))
+    val lst2 = new Cons[Int](4, new Cons(5, new Cons(6, new Cons(7, new Cons(8, MyEmpty)))))
     println(lst2.size())
 
+    val lst3 = lst2.add(0).add(1).add(2).add(3)
+    println(lst3.size(0))
 
-
-    val lstnew2: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[String]("world", Empty)))
-//    val lstnew3: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[Int](5, Empty)))
-//    val lstnew4: Cons[Any] = new Cons[Any](1, new Cons[Int](2, new Cons[String]("hello", Empty)))
+    val lstnew2: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[String]("world", MyEmpty)))
+//    val lstnew3: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[Int](5, MyEmpty)))
+//    val lstnew4: Cons[Any] = new Cons[Any](1, new Cons[Int](2, new Cons[String]("hello", MyEmpty)))
 
   }
 
