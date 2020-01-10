@@ -17,9 +17,7 @@ object ListExpand {
 
       def map[B](transformer: MyTransformer[A,B]): MyListGen[B]
       def filter(predicate: MyPredicate[A]): MyListGen[A]
-      def flatMap[B](transformer: MyTransformer[A, MyListGen[B]]): MyListGen[B]
-
-
+      def flatMap[B](transformer: MyTransformer[A,MyListGen[B]]): MyListGen[B]
 
     }
 
@@ -44,7 +42,7 @@ object ListExpand {
 
       def map[B](transformer: MyTransformer[Nothing,B]): MyListGen[B] = EmptyGen
       def filter(predicate: MyPredicate[Nothing]): MyListGen[Nothing] = EmptyGen
-      def flatMap[B](transformer: MyTransformer[Nothing, MyListGen[B]]): MyListGen[B] = EmptyGen
+      def flatMap[B](transformer: MyTransformer[Nothing,MyListGen[B]]): MyListGen[B] = EmptyGen
 
     }
 
@@ -72,16 +70,16 @@ object ListExpand {
         new ConsGen(h, t ++ anotherList)
       }
 
+      def map[B](transformer: MyTransformer[A,B]): MyListGen[B] = {
+        new ConsGen(transformer.transform(h), t.map(transformer))
+      }
+
       def filter(predicate: MyPredicate[A]): MyListGen[A] = {
         if (predicate.test(h)) new ConsGen(h, t.filter(predicate))
         else t.filter(predicate)
       }
 
-      def map[B](transformer: MyTransformer[A,B]): MyListGen[B] = {
-        new ConsGen(transformer.transform(h), t.map(transformer))
-      }
-
-      def flatMap[B](transformer: MyTransformer[A, MyListGen[B]]): MyListGen[B] = {
+      def flatMap[B](transformer: MyTransformer[A,MyListGen[B]]): MyListGen[B] = {
         transformer.transform(h) ++ t.flatMap(transformer)
       }
     }
@@ -93,15 +91,15 @@ object ListExpand {
     println(listOfStrings)
 
     println(listOfIntegers.map(new MyTransformer[Int, Int] {
-      def transform(ele: Int) = ele * 2
+      override def transform(ele: Int): Int = ele * 2
     }))
 
     println(listOfIntegers.filter(new MyPredicate[Int] {
-      def test(ele: Int) = ele % 2 == 0
+      override def test(ele: Int): Boolean = ele % 2 == 0
     }))
 
     println(listOfIntegers.flatMap(new MyTransformer[Int, MyListGen[Int]] {
-      def transform(ele: Int): MyListGen[Int] = new ConsGen(ele, new ConsGen(ele + 2, new ConsGen(ele + 4, EmptyGen)))
+      override def transform(ele: Int): MyListGen[Int] = new ConsGen(ele, new ConsGen(ele + 2, new ConsGen(ele + 4, EmptyGen)))
     }))
 
 
