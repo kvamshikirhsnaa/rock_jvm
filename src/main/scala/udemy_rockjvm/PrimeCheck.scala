@@ -2,7 +2,7 @@ package udemy_rockjvm
 
 import scala.annotation.tailrec
 
-object Test6 {
+object PrimeCheck {
   def main(args: Array[String]): Unit = {
 
 
@@ -14,9 +14,9 @@ object Test6 {
     println(isPrime(23574571))
 
     println(isPrime2(15))
-/*    println(isPrime2(235472657))
-    println(isPrime2(235745731))
-    */
+    /*    println(isPrime2(235472657))
+        println(isPrime2(235745731))
+        */
     println(fibo(5))
     println(fibo(8))
 
@@ -59,3 +59,4 @@ object Test6 {
 
 
 }
+

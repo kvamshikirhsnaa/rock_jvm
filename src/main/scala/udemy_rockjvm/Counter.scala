@@ -1,6 +1,5 @@
 package udemy_rockjvm
 
-
 class Counter(val count: Int = 0) {
   def incr: Counter = {
     println("incrementing")
@@ -27,7 +26,7 @@ class Counter(val count: Int = 0) {
 
 }
 
-object Test8 {
+object Counter {
   def main(args: Array[String]): Unit = {
 
 

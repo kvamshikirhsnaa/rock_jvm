@@ -35,14 +35,14 @@ object GenericsNew {
     println(animals.add("fefree"))
     println(animals.add((1,3,5,6)))
 
-//    val dogsNcats: CovariantList[Dog]= new CovariantList[Cat](c1, Empty )
+    //    val dogsNcats: CovariantList[Dog]= new CovariantList[Cat](c1, Empty )
 
     class ContravariantList[-A]
 
     val dogsList: ContravariantList[Dog] = new ContravariantList[Animal]
     println(dogsList)
 
-//    val Animallist: ContravariantList[Dog] = new ContravariantList[Cat]
+    //    val Animallist: ContravariantList[Dog] = new ContravariantList[Cat]
 
 
 

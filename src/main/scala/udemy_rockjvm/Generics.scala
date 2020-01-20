@@ -1,6 +1,5 @@
 package udemy_rockjvm
 
-
 class Animal
 class Dog extends Animal
 class Cat extends Animal
@@ -20,11 +19,11 @@ object Generics {
 
     val animalsList: CovariantList[Animal] = new CovariantList[Dog]
 
-//    val animalsList: CovariantList[Dog] = new CovariantList[Animal]
+    //    val animalsList: CovariantList[Dog] = new CovariantList[Animal]
 
     val dogsList: ContravariantList[Dog] = new ContravariantList[Animal]
 
-//    val dogsList: ContravariantList[Animal] = new ContravariantList[Dog]
+    //    val dogsList: ContravariantList[Animal] = new ContravariantList[Dog]
 
     val dogs: InvariantList[Dog] = new InvariantList[Dog]
 
@@ -39,10 +38,10 @@ object Generics {
     val cage = new Cage(new Dog)
     println(cage.getClass)
 
-//    val cageNew = new Cage(new NewCage)
+    //    val cageNew = new Cage(new NewCage)
 
 
-//    val newCage = new Cage(new NewCage) // throws error
+    //    val newCage = new Cage(new NewCage) // throws error
 
     // 2: lower bound - >:
 
@@ -58,3 +57,4 @@ object Generics {
   }
 
 }
+

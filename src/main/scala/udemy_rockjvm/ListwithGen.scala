@@ -103,8 +103,8 @@ object ListwithGen {
     println(lst3.size(0))
 
     val lstnew2: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[String]("world", MyEmpty)))
-//    val lstnew3: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[Int](5, MyEmpty)))
-//    val lstnew4: Cons[Any] = new Cons[Any](1, new Cons[Int](2, new Cons[String]("hello", MyEmpty)))
+    //    val lstnew3: Cons[Any] = new Cons[Any](1, new Cons[String]("hello", new Cons[Int](5, MyEmpty)))
+    //    val lstnew4: Cons[Any] = new Cons[Any](1, new Cons[Int](2, new Cons[String]("hello", MyEmpty)))
 
   }
 

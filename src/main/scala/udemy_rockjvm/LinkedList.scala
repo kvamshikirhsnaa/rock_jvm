@@ -71,3 +71,4 @@ object LinkedList {
     println(lstnew.remove(9))
   }
 }
+

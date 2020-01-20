@@ -10,8 +10,7 @@ class Novel(val name: String, val yearOfRelease: Int, val author: Writer) {
   def copy(newyear: Int): Novel = new Novel(name, newyear, author)
 }
 
-
-object Test7 {
+object Book {
   def main(args: Array[String]): Unit = {
 
     val w1 = new Writer("Chetan", "Bhagath", 1975)
@@ -30,10 +29,6 @@ object Test7 {
 
     println(n1new.name)
     println(n1new.yearOfRelease)
-
-
-
-
 
 
 

@@ -1,6 +1,5 @@
 package udemy_rockjvm
 
-
 abstract class MyListGen[+A] {
   def head: A
   def tail: MyListGen[A]
@@ -74,3 +73,4 @@ object ListwithGenerics {
   }
 
 }
+

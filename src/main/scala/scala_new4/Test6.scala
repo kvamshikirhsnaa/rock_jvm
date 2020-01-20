@@ -1,4 +1,4 @@
-package udemy_rockjvm
+package scala_new4
 
 class Person(val name: String, val favMovie: String) {
   def likes(movie: String) = movie == favMovie
@@ -6,7 +6,7 @@ class Person(val name: String, val favMovie: String) {
   def hangingOutWith(person: Person): String = s"${this.name} hanging out with ${person.name}"
 }
 
-object Test9 {
+object Test6 {
   def main(args: Array[String]): Unit = {
 
     val p1 = new Person("Vamshikrishna", "Aparichitudu")

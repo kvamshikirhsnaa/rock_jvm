@@ -6,9 +6,9 @@ object Exceptions {
 
     // 1. Throwing Exceptions
     val x: String = null
-//    println(x.length)   // throws NullPointerException
+    //    println(x.length)   // throws NullPointerException
 
-//    val aWeirdValue: String = throw new NullPointerException  // throws NullPointerException
+    //    val aWeirdValue: String = throw new NullPointerException  // throws NullPointerException
 
 
     // 2. Catching Exceptions
@@ -37,10 +37,10 @@ object Exceptions {
 
     val exception = new MyException
 
-//    throw exception   // throws Exceptions$MyException$1
+    //    throw exception   // throws Exceptions$MyException$1
 
     // throwing OOM ERROR
-//    val a = Array.ofDim(Int.MaxValue)    //java.lang.OutOfMemoryError: Requested array size exceeds VM limit
+    //    val a = Array.ofDim(Int.MaxValue)    //java.lang.OutOfMemoryError: Requested array size exceeds VM limit
 
     class OverflowException extends RuntimeException
     class UnderflowException extends RuntimeException
@@ -76,29 +76,19 @@ object Exceptions {
 
     val calc = PocketCalculator
     println(calc.add(50,25))
-//    println(calc.add(Int.MaxValue, 1))
-//    println(calc.add(Int.MinValue, -1))
-//    println(calc.add(Int.MinValue, Int.MinValue))
+    //    println(calc.add(Int.MaxValue, 1))
+    //    println(calc.add(Int.MinValue, -1))
+    //    println(calc.add(Int.MinValue, Int.MinValue))
 
     println(calc.subtract(100,50))
-//    println(calc.subtract(Int.MinValue, 1))
-//    println(calc.subtract(Int.MaxValue, -1))
+    //    println(calc.subtract(Int.MinValue, 1))
+    //    println(calc.subtract(Int.MaxValue, -1))
 
     println(calc.multiply(20,50))
-//    println(calc.multiply(Int.MinValue, -100000000))
+    //    println(calc.multiply(Int.MinValue, -100000000))
 
     println(calc.divide(50,5))
-//    println(calc.divide(5,0))
-
-
-
-
-
-
-
-
-
-
+    //    println(calc.divide(5,0))
 
 
 
@@ -107,3 +97,4 @@ object Exceptions {
   }
 
 }
+
