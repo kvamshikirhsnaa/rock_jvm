@@ -102,6 +102,13 @@ object ListExpand {
       override def transform(ele: Int): MyListGen[Int] = new ConsGen(ele, new ConsGen(ele + 2, new ConsGen(ele + 4, EmptyGen)))
     }))
 
+    val lstnew1 = new ConsGen[Int](5, EmptyGen)
+    println(lstnew1)   // [5]
+    println(lstnew1.add(0, new ConsGen("hello", EmptyGen)).add("hi"))  // [hi (0,[hello]) 5]
+    println(lstnew1.add(0).add("hello").add("hi"))  // [hi hello 0 5]
+    println(lstnew1.add(true).add(5.0).add(List(1,2,3), List(4,5,6)))  // [(List(1, 2, 3),List(4, 5, 6)) 5.0 true 5]
+    println(lstnew1.add(true).add(5.0).add((List(1,2,3), List(4,5,6))))  // [(List(1, 2, 3),List(4, 5, 6)) 5.0 true 5]
+
 
   }
 

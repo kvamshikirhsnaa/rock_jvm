@@ -25,18 +25,18 @@ object Test5 {
 
   def findMaxSubPalindrom2(x: String): String = {
     val len = Range(0,x.length)
-    val palindroms = len.foldLeft(Array[String]()) {
+    val palindroms = len.foldLeft(List[String]()) {
       (tempx, curr) => {
         val len2 = Range(curr + 1, x.length)
-        val arrOfPalindroms = len2.foldLeft(tempx) {
+        val lstOfPalindroms = len2.foldLeft(tempx) {
           (tempx2, cur) => {
             val y = x.substring(curr, cur + 1)
             if (y == y.reverse) {
-             tempx2 :+ y
+             y +: tempx2
             } else tempx2
           }
         }
-        arrOfPalindroms
+        lstOfPalindroms
       }
     }
     palindroms.maxBy(x => x.size)

@@ -19,9 +19,30 @@ object Test3 {
       }
     }
 
-    val pairs = m.filter(x => (x._2).length > 1)
-
+    println(m)
+    val pairs = m.filter(x => x._2.length > 1)
     println(pairs)
+
+    def findMaxSumEle(lst: List[Int]): Map[Int, List[Tuple2[Int, Int]]] = {
+      val len = Range(0, lst.length)
+      val maxEles = len.foldLeft(Map[Int, List[Tuple2[Int, Int]]]()) {
+        (tempMap, curr) => {
+          val len2 = Range(curr + 1, lst.length)
+          val lstOfSumEles = len2.foldLeft(tempMap) {
+            (tempMap2, cur) => {
+              val ele = lst(curr) + lst(cur)
+              if (tempMap2.contains(ele)) tempMap2 + (ele -> (tempMap2(ele) ++ List((lst(curr), lst(cur)))))
+              else tempMap2 + (ele -> List((lst(curr), lst(cur))))
+            }
+          }
+          lstOfSumEles
+        }
+      }
+      maxEles
+    }
+
+    println(findMaxSumEle(lst))
+
 
 
 

@@ -36,7 +36,6 @@ object Functions {
     val addernew2 = (x: Int, y: Int) => x + y
     println(addernew2(2,3))
 
-
     // no params
     val jstDoSmthng: () => Int = () => 3
     println(jstDoSmthng) // returns ananymous function
