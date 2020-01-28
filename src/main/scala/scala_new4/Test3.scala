@@ -42,7 +42,7 @@ object Test3 {
     }
 
     println(findMaxSumEle(lst))
-    
+
     def findMaxSumEle2(lst: List[Int]): Map[Int, List[Tuple2[Int, Int]]] = {
       var m = Map[Int, List[Tuple2[Int, Int]]]()
       (0 to lst.length).foreach(x => Range(x + 1, lst.length).foreach{ y =>
@@ -54,9 +54,6 @@ object Test3 {
       m
     }
     println(findMaxSumEle2(lst))
-
-
-
 
 
 
