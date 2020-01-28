@@ -42,21 +42,17 @@ object Test3 {
     }
 
     println(findMaxSumEle(lst))
-
-
-
-    // wrong output
+    
     def findMaxSumEle2(lst: List[Int]): Map[Int, List[Tuple2[Int, Int]]] = {
       var m = Map[Int, List[Tuple2[Int, Int]]]()
-      lst.flatMap(x => Range(0, lst.length).flatMap(y => Range(y + 1, lst.length).map {z =>
-        val g = lst(y) + lst(z)
-        if (m.contains(g)) m += (g -> (m(g) ++ List((lst(y), lst(z)))))
-        else m += (g -> List((lst(y), lst(z))))
-        g
-      }))
+      (0 to lst.length).foreach(x => Range(x + 1, lst.length).foreach{ y =>
+        val z = lst(x) + lst(y)
+        if (m.contains(z)) m += (z -> (m(z) ++ List((lst(x), lst(y)))))
+        else m += (z -> List((lst(x), lst(y))))
+
+      })
       m
     }
-
     println(findMaxSumEle2(lst))
 
 
