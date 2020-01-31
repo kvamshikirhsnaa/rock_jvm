@@ -4,7 +4,6 @@ import java.util.Map.Entry
 import java.util.Set
 import scala.collection.JavaConversions._
 
-/*
 
 object ClientTest {
   def main(args: Array[String]): Unit = {
@@ -33,4 +32,3 @@ object ClientTest {
   }
 }
 
-*/

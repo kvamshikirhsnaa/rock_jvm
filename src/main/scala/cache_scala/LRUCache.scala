@@ -3,7 +3,6 @@ package cache_scala
 import java.util.LinkedHashMap
 import java.util.Map.Entry
 
-/*
 
 @SerialVersionUID( -4622177786359540728L )
 object LRUCache {
@@ -11,7 +10,9 @@ object LRUCache {
 }
 
 @SerialVersionUID( -4622177786359540728L )
-class LRUCache[K, V] private(override var size: Int) extends LinkedHashMap[K, V]( size, 0.75f, true ) {
+class LRUCache[K, V] (var s: Int) extends LinkedHashMap[K, V](new java.lang.Integer(s), 0.75f, true ) {
+
   override protected def removeEldestEntry(eldest: Entry[K, V]): Boolean = size > size
 }
-*/
+
+// class LRUCache[K, V] private(override var size: Int) extends LinkedHashMap[K, V]( size, 0.75f, true ) {
