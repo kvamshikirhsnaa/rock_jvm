@@ -1,7 +1,6 @@
 package scala_new4
 
 import scala.annotation.tailrec
-import scala.collection.mutable._
 
 object Test7 {
   def main(args: Array[String]): Unit = {
