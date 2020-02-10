@@ -23,7 +23,7 @@ object Test2 {
 
     val empDF = spark.read.option("header", "true").
       option("inferSchema", "true").
-      csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\employee.txt").
+      csv("C:\\Users\\Kenche.vamshikrishna\\Downloads\\inputfiles\\employeeNew.txt").
       as[Emp]
 
     empDF.show
