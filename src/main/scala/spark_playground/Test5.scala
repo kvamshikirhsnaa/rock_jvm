@@ -5,9 +5,12 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.expressions._
 import io.delta.tables._
+import org.apache.log4j.{Level, Logger}
 
 object Test5 {
   def main(args: Array[String]): Unit = {
+
+    Logger.getLogger( "org" ).setLevel( Level.ERROR )
 
     val spark = SparkSession.builder().
       master( "local" ).

@@ -4,12 +4,14 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.expressions._
 import org.apache.spark.sql.types._
-
+import org.apache.log4j.{Level, Logger}
 
 case class Emp(name: String, age: Int, dno: Int, sal: Long, dt: String)
 
 object Test2 {
   def main(args: Array[String]): Unit = {
+
+    Logger.getLogger( "org" ).setLevel( Level.ERROR )
 
     val spark = SparkSession.builder().
       master("local").
