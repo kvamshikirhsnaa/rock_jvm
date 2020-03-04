@@ -57,7 +57,7 @@ object Test12 extends App {
 
 
   def testJustfy() = {
-    println(justify( "hi..! how are you? what are you doing? where are you? had your lunch?", 10 ) )
+    println(justify( "hi..! how are you? what are you doing? where are you? had your lunch?", 10))
     println()
     println(justify("Had an extensive review regarding preparedness on the COVID-19 Novel Coronavirus. Different ministries & states are working together, from screening people arriving in India to providing prompt medical attention, said PM Modi. Earlier, PM Modi also met Delhi CM Arvind Kejriwal, in which the two leaders discussed the coronavirus spread. Arvind Kejriwal, on the other hand, has called a meeting with Health Minister Satyendar Jain and officials to take stock of the government's preparations to deal with coronavirus. Congress leader Rahul Gandhi hit out at the government and said a true leader would be completely focused on averting the massive crisis about to be unleashed by the virus on the country and its economy.", 40))
   }
